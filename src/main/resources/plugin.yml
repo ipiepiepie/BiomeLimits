@@ -1,0 +1,5 @@
+name: BiomeLimits
+version: '${project.version}'
+main: ru.ipie.biomelimits.BiomeLimits
+api-version: 1.13
+authors: [ iPiE ]
