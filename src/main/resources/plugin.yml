@@ -1,5 +1,18 @@
 name: BiomeLimits
+author: iPiE
+
+main: xyz.nifti.biomelimits.BiomeLimits
 version: '${project.version}'
-main: ru.ipie.biomelimits.BiomeLimits
 api-version: 1.13
-authors: [ iPiE ]
+depend: [ NiftiTranslate ]
+
+commands:
+    biomelimits:
+        aliases: [ bl ]
+
+permissions:
+    biomelimits.bypass:
+        default: false
+
+    biomelimits.reload:
+        default: op
