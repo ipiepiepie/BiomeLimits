@@ -1,4 +1,4 @@
-package ru.ipie.biomelimits.util;
+package xyz.nifti.biomelimits.util;
 
 import com.cryptomorin.xseries.XBiome;
 import org.bukkit.block.Biome;
@@ -6,6 +6,7 @@ import org.bukkit.block.Biome;
 import java.util.Arrays;
 import java.util.List;
 
+@SuppressWarnings("unused")
 public enum SimpleBiomes {
     S_FOREST(Arrays.asList(Biome.FOREST, Biome.WOODED_HILLS, Biome.FLOWER_FOREST)),
     S_BIRCH_FOREST(Arrays.asList(Biome.BIRCH_FOREST, Biome.BIRCH_FOREST_HILLS, Biome.TALL_BIRCH_FOREST, Biome.TALL_BIRCH_HILLS)),
