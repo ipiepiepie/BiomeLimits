@@ -1,18 +1,45 @@
 name: BiomeLimits
-author: iPiE
+description: Plugin to add biome based limitations to the game.
 
-main: xyz.nifti.biomelimits.BiomeLimits
-version: '${project.version}'
+author: ipiepiepie
+website: https://github.com/ipiepiepie
+
+main: xyz.ipiepiepie.biomelimits.BiomeLimits
+version: '${version}'
 api-version: 1.13
-depend: [ NiftiTranslate ]
-
-commands:
-    biomelimits:
-        aliases: [ bl ]
 
 permissions:
-    biomelimits.bypass:
-        default: false
+    biomelimits.bypass.*:
+        description: Allow player to bypass all biome limits
+        default: op
+        children:
+            - biomelimits.bypass.destroy
+            - biomelimits.bypass.place
+
+    biomelimits.bypass.destroy:
+        description: Allow player to destroy blocks, bypassing biome limits
+        default: op
+
+    biomelimits.bypass.place:
+        description: Allow player to place blocks, bypassing biome limits
+        default: op
+
+    ## INFO ##
+
+    biomelimits.info:
+        description: Allow player to see limited block info
+        default: op
+
+    ## RELOAD ##
 
     biomelimits.reload:
+        description: Allow player to reload plugin
         default: op
+
+    biomelimits.*:
+        description: All plugin permissions
+        default: op
+        children:
+            - biomelimits.bypass.*
+            - biomelimits.info
+            - biomelimits.reload
