@@ -1,0 +1,115 @@
+plugins {
+    id 'java'
+    id 'com.github.johnrengelman.shadow' version '7.1.2'
+}
+
+group = 'xyz.ipiepiepie'
+version = '2.0'
+
+repositories {
+    mavenCentral()
+    maven {
+        name = "spigotmc-repo"
+        url = "https://hub.spigotmc.org/nexus/content/repositories/snapshots/"
+    }
+    maven {
+        name = "sonatype"
+        url = "https://oss.sonatype.org/content/groups/public/"
+    }
+
+    // Command API dependency
+    maven {
+        name = 'codemc-repo'
+        url = "https://repo.codemc.org/repository/maven-public/"
+    }
+
+    // Towny Repository (includes CommentedOutConfiguration dependency)
+    maven {
+        name = 'glaremasters repo'
+        url = 'https://repo.glaremasters.me/repository/towny/'
+    }
+
+    // MineDown Repository
+    maven {
+        name = 'minebench-repo'
+        url = 'https://repo.minebench.de/'
+    }
+}
+
+dependencies {
+    compileOnly "org.spigotmc:spigot-api:1.13-R0.1-SNAPSHOT"
+
+    // Cross-platform
+    implementation("com.github.cryptomorin:XSeries:9.5.0") { transitive = false }
+
+    // Commands
+    implementation 'dev.jorel:commandapi-bukkit-shade:9.1.0'
+
+    // Configs
+    implementation 'io.github.townyadvanced.commentedconfiguration:CommentedConfiguration:1.0.0'
+    implementation 'de.themoep:minedown:1.7.1-SNAPSHOT'
+
+    implementation 'org.jetbrains:annotations:24.0.0'
+}
+
+shadowJar {
+    relocate("dev.jorel.commandapi", "lib.commandapi")
+    relocate("io.github.townyadvanced.commentedconfiguration", "lib.commentedconfiguration")
+    relocate("de.themoep.minedown", "lib.minedown")
+    relocate('com.cryptomorin.xseries', 'lib.nms')
+    relocate("org.jetbrains.annotations", "lib.annotations")
+
+    // exclude some XSeries libs
+    exclude 'com.cryptomorin.xseries.NMSExtras*'
+    exclude 'com.cryptomorin.xseries.NoteBlockMusic*'
+    exclude 'com.cryptomorin.xseries.XPotion*'
+    exclude 'com.cryptomorin.xseries.XEnchantment*'
+    exclude 'com.cryptomorin.xseries.XSound*'
+    exclude 'com.cryptomorin.xseries.SkullCacheListener*'
+
+    // minimize JAR file
+    minimize()
+
+    // move plugin to test server directory
+    destinationDirectory = new File("$server_1_17_1")
+}
+
+
+def targetJavaVersion = 16
+java {
+    def javaVersion = JavaVersion.toVersion(targetJavaVersion)
+    sourceCompatibility = javaVersion
+    targetCompatibility = javaVersion
+    if (JavaVersion.current() < javaVersion) {
+        toolchain.languageVersion = JavaLanguageVersion.of(targetJavaVersion)
+    }
+}
+
+tasks.jar.configure {
+    archiveClassifier = 'default'
+}
+
+tasks.shadowJar.configure {
+    archiveClassifier = ''
+}
+
+configurations.configureEach {
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+}
+
+tasks.withType(JavaCompile).configureEach {
+    if (targetJavaVersion >= 10 || JavaVersion.current().isJava10Compatible()) {
+        options.release = targetJavaVersion
+    }
+
+    options.encoding = 'UTF-8'
+}
+
+processResources {
+    def props = [version: version]
+    inputs.properties props
+    filteringCharset 'UTF-8'
+    filesMatching('plugin.yml') {
+        expand props
+    }
+}
