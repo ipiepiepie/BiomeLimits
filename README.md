@@ -9,7 +9,7 @@ Have you ever wondered about plants, growing only in their native Biomes?
 This plugin allows you to limit Block placing/breaking, based on Biomes.
 You can limit any Block in game, but first of all this plugin aimed to confine crops, trees and other plants.
 
-**Find the Project Page on [Spigot](link) or [Modrinth](https://modrinth.com/mod/biomelimits)**
+**Find the Project Page on [Spigot](https://www.spigotmc.org/resources/biomelimits.112335) or [Modrinth](https://modrinth.com/mod/biomelimits)**
 
 ___
 
@@ -23,7 +23,7 @@ ___
 
 ### Installation
 
-1. Download latest BiomeLimits version from **[Spigot](link)** or **[Modrinth](https://modrinth.com/mod/biomelimits)**.
+1. Download latest BiomeLimits version from **[Spigot](https://www.spigotmc.org/resources/biomelimits.112335)** or **[Modrinth](https://modrinth.com/mod/biomelimits)**.
 2. Put it into your `/plugins` folder.
 3. Restart your server. _(not /reload)_
 
