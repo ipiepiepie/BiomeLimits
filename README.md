@@ -31,6 +31,8 @@ If you don't know how to use configs, take a look at comments inside them.
 All configs has auto-generated templates, which will help you to configure plugin for your needs.  
 > There is one issue with auto-generated templates, you can read about it [below](https://github.com/ipiepiepie/BiomeLimits#issues).
 
+**All plugin permissions and commands are described in the [Wiki](https://github.com/ipiepiepie/BiomeLimits/wiki).**
+
 ___
 
 ### Dependencies
@@ -57,7 +59,7 @@ ___
 ### Issues
 
 > There is one known issue, when templates of limited blocks, generated on configs creation, loses describing commentaries after plugin/server reload.  
-> It can't be fixed, because that's how **[CommentedConfiguration](https://github.com/TownyAdvanced/CommentedConfiguration)** works, but you can find these templates [on wiki pages](https://github.com/ipiepiepie/BiomeLimits/wiki/Configs).
+> It can't be fixed, because that's how **[CommentedConfiguration](https://github.com/TownyAdvanced/CommentedConfiguration)** works, but you can find these templates in the [Wiki](https://github.com/ipiepiepie/BiomeLimits/wiki/Configs).
 
 If you have any issues with this plugin, open your issue [here](https://github.com/ipiepiepie/BiomeLimits/issues), on GitHub.
 
