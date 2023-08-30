@@ -7,6 +7,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import xyz.ipiepiepie.biomelimits.command.BiomeLimitsCommand;
+import xyz.ipiepiepie.biomelimits.config.BiomesConfig;
 import xyz.ipiepiepie.biomelimits.config.BlocksConfig;
 import xyz.ipiepiepie.biomelimits.config.MessagesConfig;
 import xyz.ipiepiepie.biomelimits.config.SettingsConfig;
@@ -75,6 +76,7 @@ public final class BiomeLimits extends JavaPlugin {
      * Also, tries to create {@link #getDataFolder() Plugin Data Folder} and disables plugin, if creation isn't success.
      *
      * @see SettingsConfig
+     * @see BiomesConfig
      * @see BlocksConfig
      * @see MessagesConfig
      */
@@ -92,6 +94,7 @@ public final class BiomeLimits extends JavaPlugin {
         
         // load configs
         SettingsConfig.load();
+        BiomesConfig.load();
         BlocksConfig.load();
         MessagesConfig.load();
         

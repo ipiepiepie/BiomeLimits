@@ -1,6 +1,7 @@
 package xyz.ipiepiepie.biomelimits.util;
 
 import org.bukkit.block.Biome;
+import xyz.ipiepiepie.biomelimits.object.BiomeGroup;
 
 import java.util.List;
 import java.util.Objects;
@@ -14,8 +15,10 @@ import java.util.stream.Collectors;
  * Used to simplify {@link Biome} matching from config.
  *
  * @see Biome
+ * @deprecated Use {@link BiomeGroup} instead.
  */
 @SuppressWarnings("unused")
+@Deprecated(forRemoval = true)
 public enum SimpleBiomes {
     // TODO add XBiome biomes support
     S_FOREST(List.of(Biome.FOREST, Biome.WOODED_HILLS, Biome.FLOWER_FOREST)),

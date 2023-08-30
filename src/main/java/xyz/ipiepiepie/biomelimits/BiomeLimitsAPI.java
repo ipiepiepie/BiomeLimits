@@ -2,7 +2,9 @@ package xyz.ipiepiepie.biomelimits;
 
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Material;
+import xyz.ipiepiepie.biomelimits.config.BiomesConfig;
 import xyz.ipiepiepie.biomelimits.config.BlocksConfig;
+import xyz.ipiepiepie.biomelimits.object.BiomeGroup;
 import xyz.ipiepiepie.biomelimits.object.LimitedBlock;
 
 import java.util.ArrayList;
@@ -20,6 +22,8 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class BiomeLimitsAPI {
     private static BiomeLimitsAPI instance;
+    // biome groups //
+    private final Map<String, BiomeGroup> biomeGroups = new ConcurrentHashMap<>();
     // limited blocks //
     private final Map<Material, LimitedBlock> limitedBlocks = new ConcurrentHashMap<>();
     
@@ -30,6 +34,18 @@ public class BiomeLimitsAPI {
      */
     public static BiomeLimitsAPI getInstance() {
         return instance;
+    }
+    
+    /*====================================* BIOME GROUPS METHODS *====================================*/
+    
+    /**
+     * Get {@link BiomeGroup Biome Group} by its name.
+     *
+     * @param name name of {@link BiomeGroup Biome Group}
+     * @return {@link BiomeGroup Biome Group} if exists, otherwise {@code null}
+     */
+    public BiomeGroup getBiomeGroup(String name) {
+        return biomeGroups.get(name);
     }
     
     /*===================================* LIMITED BLOCKS METHODS *===================================*/
@@ -87,6 +103,7 @@ public class BiomeLimitsAPI {
         long startTime = System.currentTimeMillis();
         
         // load data from configs
+        this.loadBiomeGroups();
         this.loadLimitedBlocks();
         
         // debug
@@ -94,6 +111,38 @@ public class BiomeLimitsAPI {
     }
     
     /// SUB-LOAD METHODS ///
+    
+    /**
+     * Load {@link BiomeGroup Biome Groups} from {@link BiomesConfig}.
+     * <p>
+     * Automatically puts loaded {@link BiomeGroup Biome Groups} to {@link #biomeGroups Biome Groups Map}.
+     *
+     * @see BiomesConfig
+     */
+    private void loadBiomeGroups() {
+        // get biome groups' names
+        Set<String> identifiers = BlocksConfig.getConfig().getKeys(false);
+        biomeGroups.clear(); // clear old biome groups map
+        
+        // iterate over biome groups' IDs and load them
+        for (String id : identifiers) {
+            String name = "GROUP_" + id;
+            
+            // load and save biome groups in internal structures
+            biomeGroups.put(name, new BiomeGroup(
+                    name,
+                    BiomesConfig.getBiomes(id)
+            ));
+        }
+        
+        // log to console
+        LimitsLogger.log("&8(Loader) &7Loaded &a%d &7Biome Groups! %s(%d/%d)",
+                biomeGroups.size(),
+                biomeGroups.size() == identifiers.size() ? ChatColor.GREEN : ChatColor.RED,
+                biomeGroups.size(),
+                identifiers.size()
+        );
+    }
     
     /**
      * Load {@link LimitedBlock Limited Blocks} from {@link BlocksConfig}.

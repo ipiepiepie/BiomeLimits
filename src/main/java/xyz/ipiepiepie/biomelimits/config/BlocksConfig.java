@@ -12,9 +12,10 @@ import org.bukkit.Material;
 import org.bukkit.block.Biome;
 
 import xyz.ipiepiepie.biomelimits.BiomeLimits;
+import xyz.ipiepiepie.biomelimits.BiomeLimitsAPI;
 import xyz.ipiepiepie.biomelimits.LimitsLogger;
+import xyz.ipiepiepie.biomelimits.object.BiomeGroup;
 import xyz.ipiepiepie.biomelimits.object.LimitedBlock;
-import xyz.ipiepiepie.biomelimits.util.SimpleBiomes;
 
 import java.io.File;
 import java.util.*;
@@ -94,25 +95,10 @@ public class BlocksConfig {
                 "",
                 "#################################################################################################",
                 "#                                                                                               #",
-                "# You can use my simplified biomes instead of default minecraft biomes.                         #",
+                "# You can use Biome Groups instead of typing all biomes by hand.                                #",
+                "# There are already several Biome Groups, created on config initialisation.                     #",
                 "#                                                                                               #",
-                "# Simplified biomes include various biomes combined on the same basis.                          #",
-                "# For example, simplified biome S_TAIGA combines biomes TAIGA, TAIGA_HILLS and TAIGA_MOUNTAINS. #",
-                "#                                                                                               #",
-                "# List of simplified biomes, that you can use:                                                  #",
-                "# · S_FOREST (FOREST, WOODED_HILLS, FLOWER_FOREST)                                              #",
-                "# · S_BIRCH_FOREST (all birch and tall birch biomes)                                            #",
-                "# · S_DARK_FOREST (all dark forest biomes)                                                      #",
-                "# · S_JUNGLE (all jungle biomes except bamboo biomes)                                           #",
-                "# · S_SWAMP (all swamp biomes)                                                                  #",
-                "# · S_PLAINS (PLAINS and SUNFLOWER_PLAINS biomes)                                               #",
-                "# · S_DESERT (all desert biomes)                                                                #",
-                "# · S_BADLANDS (all badlands biomes)                                                            #",
-                "# · S_TUNDRA (all tundra and snowy taiga biomes)                                                #",
-                "# · S_TAIGA (all taiga biomes)                                                                  #",
-                "# · S_SAVANNA (all savanna biomes)                                                              #",
-                "# · S_MOUNTAINS (all mountains biomes)                                                          #",
-                "# · S_OCEAN (all ocean biomes)                                                                  #",
+                "# [!] You can find and edit them in 'biomes.yml' config file.                                   #",
                 "#                                                                                               #",
                 "#################################################################################################",
                 "",
@@ -140,7 +126,7 @@ public class BlocksConfig {
                 .builder("carrots.whitelist", List.class)
                 .comment("# whitelisted biomes  (removable)")
                 .comment("# [?] default implementation means, that carrot can be placed/destroyed only in plains biomes and flower forest")
-                .defaultValue(List.of("S_PLAINS", "FLOWER_FOREST"))
+                .defaultValue(List.of("GROUP_PLAINS", "FLOWER_FOREST"))
                 .build()
         );
         
@@ -149,7 +135,7 @@ public class BlocksConfig {
                 .comment("# blacklisted biomes  (removable)")
                 .comment("# [?] default implementation means, that carrot can't be placed/destroyed in all taiga, mountains and ocean biomes")
                 .comment("# [!] note, that blacklist won't work, since we are already using whitelist in current implementation!")
-                .defaultValue(List.of("S_TAIGA", "S_MOUNTAINS"))
+                .defaultValue(List.of("GROUP_TAIGA", "GROUP_MOUNTAINS", "GROUP_OCEAN"))
                 .build()
         );
         
@@ -215,16 +201,17 @@ public class BlocksConfig {
         return getBiomes(block, getConfig().getStringList(block + ".whitelist"));
     }
     
-    // BIOME LOADER //
+    // BIOMES LOADER //
     
     /**
      * Load {@link List} of {@link Biome Biomes} from its names.
      * <p>
-     * First of all tries to parse {@link SimpleBiomes}, then {@link XBiome}. <br>
+     * First of all tries to parse {@link BiomeGroup}, then {@link XBiome}. <br>
      * Sends warning, if can't process {@link Biome}.
      *
      * @param block {@link LimitedBlock Limited Block} name for warning messages
      * @param names names of {@link Biome Biomes}
+     *
      * @return {@link List} of {@link Biome Biomes}
      */
     private static List<Biome> getBiomes(String block, List<String> names) {
@@ -232,13 +219,13 @@ public class BlocksConfig {
         
         // iterate over biome names
         for (String name : names) {
-            // simple parsing for simple biome, because it's simple!
-            if (SimpleBiomes.isSimplifiedBiome(name)) {
-                biomes.addAll(SimpleBiomes.valueOf(name).getBiomes());
+            // check if biome is group and try to load it
+            if (BiomeLimitsAPI.getInstance().getBiomeGroup(name) != null) {
+                biomes.addAll(BiomeLimitsAPI.getInstance().getBiomeGroup(name).getBiomes());
             } else {  // otherwise dive into biome existence checks >_<
                 XBiome biome = XBiome.matchXBiome(name).orElse(null);
                 
-                if (biome != null)  // add biome if exists
+                if (biome != null && biome.getBiome() != null)  // add biome if exists
                     biomes.add(biome.getBiome());
                 else  // warn to console, if biome doesn't exist on current version
                     LimitsLogger.warn("Can't load biome '%s' for limited block '%s'", name, block);
