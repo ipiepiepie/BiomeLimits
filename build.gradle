@@ -40,10 +40,10 @@ dependencies {
     compileOnly "org.spigotmc:spigot-api:1.13-R0.1-SNAPSHOT"
 
     // Cross-platform
-    implementation("com.github.cryptomorin:XSeries:9.5.0") { transitive = false }
+    implementation("com.github.cryptomorin:XSeries:11.2.1") { transitive = false }
 
     // Commands
-    implementation 'dev.jorel:commandapi-bukkit-shade:9.1.0'
+    implementation 'dev.jorel:commandapi-bukkit-shade:9.5.3'
 
     // Configs
     implementation 'io.github.townyadvanced.commentedconfiguration:CommentedConfiguration:1.0.0'
