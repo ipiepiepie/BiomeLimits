@@ -121,7 +121,7 @@ public class BiomeLimitsAPI {
      */
     private void loadBiomeGroups() {
         // get biome groups' names
-        Set<String> identifiers = BlocksConfig.getConfig().getKeys(false);
+        Set<String> identifiers = BiomesConfig.getConfig().getKeys(false);
         biomeGroups.clear(); // clear old biome groups map
         
         // iterate over biome groups' IDs and load them
