@@ -77,6 +77,8 @@ public class BiomeLimitsCommand {
      */
     private static String buildBiomesString(List<Biome> biomes) {
         StringBuilder builder = new StringBuilder();
+
+        if (biomes.isEmpty()) return "-"; // skip empty biome list
         
         int counter = 0;
         for (String biome : biomes.stream().map(Biome::toString).toList()) {
