@@ -2,6 +2,7 @@ package xyz.ipiepiepie.biomelimits;
 
 import net.md_5.bungee.api.ChatColor;
 
+import org.bukkit.Bukkit;
 import xyz.ipiepiepie.biomelimits.config.SettingsConfig;
 
 /**
@@ -29,7 +30,7 @@ public class LimitsLogger {
      * @param message log message
      */
     public static void log(String message) {
-        BiomeLimits.getInstance().getLogger().info(ChatColor.translateAlternateColorCodes('&', message));
+        Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', message));
     }
     
     /// WARN ///
@@ -52,7 +53,7 @@ public class LimitsLogger {
      * @param message warn message
      */
     public static void warn(String message) {
-        BiomeLimits.getInstance().getLogger().warning(ChatColor.translateAlternateColorCodes('&', message));
+        Bukkit.getConsoleSender().sendMessage(ChatColor.YELLOW + ChatColor.translateAlternateColorCodes('&', message));
     }
     
     /// ERROR ///
@@ -75,7 +76,7 @@ public class LimitsLogger {
      * @param message error message
      */
     public static void err(String message) {
-        BiomeLimits.getInstance().getLogger().severe(ChatColor.translateAlternateColorCodes('&', message));
+        Bukkit.getConsoleSender().sendMessage(ChatColor.RED + ChatColor.translateAlternateColorCodes('&', message));
     }
     
     /// DEBUG ///
